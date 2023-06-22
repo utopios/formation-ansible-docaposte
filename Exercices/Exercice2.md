@@ -4,3 +4,4 @@
 
 1. Récupère la liste de tous les fichiers dans un répertoire spécifique de la machine cible.
 2. Enregistre le résultat de cette opération.
+3. Afficher la liste des fichiers dans le module debug
