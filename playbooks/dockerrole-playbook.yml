@@ -1,0 +1,12 @@
+---
+
+- hosts: dev 
+  become: true 
+  
+  roles:
+    - docker
+  
+  
+  
+  
+      

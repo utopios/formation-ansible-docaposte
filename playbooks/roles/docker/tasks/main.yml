@@ -1,0 +1,16 @@
+---
+# tasks file for docker
+
+- name: Download install docker script
+  get_url:
+    url: https://get.docker.com
+    dest: install_docker.sh
+    mode: '0755' 
+- name: change script mode
+  shell: chmod +x ./install_docker.sh 
+
+- name: run script
+  shell: ./install_docker.sh
+  
+
+
