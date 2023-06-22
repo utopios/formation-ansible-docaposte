@@ -1,7 +1,9 @@
 ---
 
 - hosts: dev # partie de l'inventory
-  #become: true # Execution en mode sudo sur la totalité des tasks
+  become: true # Execution en mode sudo sur la totalité des tasks
+  become_method: sudo
+  become_flags: 'su -'
   # La Liste des taches à executer sur les clients
   tasks:
   # - name: install git 
