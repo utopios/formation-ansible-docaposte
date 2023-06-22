@@ -1,0 +1,30 @@
+---
+- name: install apache2 and git
+  apt:
+    name: 
+      - apache2
+    update_cache: yes
+    # ignore_errors: yes
+
+- name: change folder rights with debug mode
+  # block qui peut echouer
+  block:
+    - name: change folder rights
+      file:
+        path: /var/www/html
+        mode: '0755'
+        state: directory
+  rescue:
+    # task en cas d'echec
+    - name: task if folder right generate errors
+      debug:
+        msg: Error Task
+
+- name: copy file 
+  template:
+    src: templates/index.html
+    dest: /var/www/html/index.html
+  notify: Restart Apache2
+
+      
+

@@ -1,0 +1,13 @@
+---
+
+- hosts: dev 
+  become: true 
+  vars:
+    content: 'Html content'
+  roles:
+    - apache2
+  
+  
+  
+  
+      

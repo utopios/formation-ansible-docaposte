@@ -1,0 +1,6 @@
+---
+- name: Restart Apache2
+  # module pour démarrer un service
+  service:
+    name: apache2
+    state: restarted
