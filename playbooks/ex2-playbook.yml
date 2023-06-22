@@ -11,6 +11,13 @@
     debug:
       var: files_list.stdout_lines
   
+  - name: save to local file
+    become: false
+    copy: 
+      content: The content is {{ files_list.stdout_lines }}
+      dest: localfile.txt
+    delegate_to: localhost
+  
   
   
       
