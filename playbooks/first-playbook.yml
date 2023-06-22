@@ -1,15 +1,26 @@
 ---
 
 - hosts: dev # partie de l'inventory
-  become: true # Execution en mode sudo sur la totalité des tasks
+  #become: true # Execution en mode sudo sur la totalité des tasks
   # La Liste des taches à executer sur les clients
   tasks:
-  - name: install git 
-    apt:
-      name: git
-      update_cache: yes
+  # - name: install git 
+  #   apt:
+  #     name: git
+  #     update_cache: yes
   
-  - name: install vim 
-    apt:
-      name: vim
-      update_cache: yes
+  # - name: install vim 
+  #   apt:
+  #     name: vim
+  #     update_cache: yes
+
+  - name: command write to file 
+    command:
+      cmd: touch file.txt
+    
+    ## Retour du module dans une variable
+    register: result_cmd_file
+
+  - name: display result command
+    debug:
+      var: result_cmd_file
