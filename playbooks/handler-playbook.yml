@@ -1,0 +1,28 @@
+---
+
+- hosts: dev 
+  become: true 
+  tasks:
+  - name: ensure apache is at the latest version
+    apt:
+      name: 
+        - apache2
+      state: latest       
+      update_cache: yes
+    notify: Restart apache
+  
+  - name: update port number
+    replace:
+      path: /etc/apache2/ports.conf
+      regexp: 'Listen 8080'
+      replace: "Listen 80"
+    notify: Restart apache
+  
+  
+
+  handlers:
+    - name: Restart apache
+      service:
+        name: apache2
+        state: restarted
+      
