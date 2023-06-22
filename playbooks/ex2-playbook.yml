@@ -1,0 +1,16 @@
+---
+
+- hosts: dev 
+  become: true 
+  tasks:
+  - name: get folder's files
+    command: ls ./data
+    register: files_list
+  
+  - name: display files
+    debug:
+      var: files_list.stdout_lines
+  
+  
+  
+      
