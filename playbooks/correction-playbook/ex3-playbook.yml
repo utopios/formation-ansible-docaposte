@@ -17,7 +17,7 @@
   
   - name: copy file with vars
     template:
-      src: html-ex1/index.html.j2
+      src: html-ex1/index-2.html
       dest: /var/www/html/index.html
   
   - name: update port number
