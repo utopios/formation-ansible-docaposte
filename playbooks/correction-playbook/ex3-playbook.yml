@@ -15,10 +15,10 @@
       mode: '0755'
       state: directory
   
-  - name: copy file 
-    copy:
-      src: html-ex1/
-      dest: /var/www/html/
+  - name: copy file with vars
+    template:
+      src: html-ex1/index.html.j2
+      dest: /var/www/html/index.html
   
   - name: update port number
     replace:
