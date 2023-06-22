@@ -1,0 +1,20 @@
+---
+
+- hosts: dev 
+  become: true 
+  vars_files:
+    - vars.yml
+  vars:
+    content: "Content of file"
+    file_name: file.txt
+  
+  tasks:
+  - name: get folder's files
+    # Utilisation des variables
+    shell: echo {{content}} >> {{file_name}}
+  
+  
+  
+  
+  
+      
