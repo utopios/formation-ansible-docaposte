@@ -2,6 +2,8 @@
 
 - hosts: dev 
   become: true 
+  vars:
+    ssh_key: ""
   vars_files:
     - vars/user.yml
   tasks:

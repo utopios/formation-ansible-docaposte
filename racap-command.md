@@ -13,3 +13,5 @@ ansible-playbook -i config/inventory.yml playbooks/tag-playbook.yml --skip-tags 
 
 utilisation des variables cryptées dans playbook est possible, en indiquant la phrase de cryptage en utiliasnt le flag  --ask-vault-pass
 
+ansible-playbook -i config/inventory.yml playbooks-with-vault/playbook.yml --ask-vault-pass --private-key ./ansible-formation.pem
+
