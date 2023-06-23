@@ -1,0 +1,16 @@
+---
+
+- hosts: dev 
+  become: true 
+  vars:
+    users:
+      toto:
+        password: tata
+      titi:
+        password: minet
+  tasks:
+  - name: copy multi folder
+    user:
+      name: "{{ item.key }}"
+      password: "{{ item.value.password }}"
+    with_dict: "{{ users }}"
