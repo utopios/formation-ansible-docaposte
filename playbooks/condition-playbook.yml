@@ -9,7 +9,7 @@
         - apache2
         - git
       update_cache: yes
-    when: ansible_os_family == 'Debian'
+    when: ansible_os_family == 'Debian' 
 
   - name: Install RedHat package
     yum:
