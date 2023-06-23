@@ -1,0 +1,32 @@
+---
+
+- hosts: dev 
+  become: true 
+  
+  tasks:
+  - name: install git 
+    apt:
+      name: git
+      update_cache: yes
+    tags:
+      - install      
+  
+  - name: install vim 
+    apt:
+      name: vim
+      update_cache: yes
+    tags:
+      - install
+
+  - name: command write to file 
+    command:
+      cmd: touch file.txt    
+    register: result_cmd_file
+    tags:
+      - repport
+
+  - name: display result command
+    debug:
+      var: result_cmd_file
+    tags:
+      - repport
