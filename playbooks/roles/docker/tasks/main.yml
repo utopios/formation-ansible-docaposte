@@ -1,16 +1,54 @@
 ---
 # tasks file for docker
 
-- name: Download install docker script
-  get_url:
-    url: https://get.docker.com
-    dest: install_docker.sh
-    mode: '0755' 
-- name: change script mode
-  shell: chmod +x ./install_docker.sh 
+# - name: Download install docker script
+#   get_url:
+#     url: https://get.docker.com
+#     dest: install_docker.sh
+#     mode: '0755' 
+# - name: change script mode
+#   shell: chmod +x ./install_docker.sh 
 
-- name: run script
-  shell: ./install_docker.sh
+# - name: run script
+#   shell: ./install_docker.sh
   
 
+- name: Installation des packages de base pour docker famille 
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+    #
+  
 
+- name: ajout de la cle gpg
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+  
+
+- name: Ajout de l'adresse du repos pour les packages docker de debian
+  apt_repository:
+    repo: deb https://download.docker.com/linux/debian stretch stable
+    state: present
+  
+- name: Index new repo into the cache
+  apt:
+    name: "*"
+    state: latest
+    update_cache: yes
+    force_apt_get: yes
+  
+    
+- name: install docker components
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    update_cache: yes
+  notify: start docker service
+  
