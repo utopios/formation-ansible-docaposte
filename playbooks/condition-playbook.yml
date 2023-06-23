@@ -1,0 +1,20 @@
+---
+
+- hosts: dev 
+  become: true 
+  tasks:
+  - name: Install debian package
+    apt:
+      name:
+        - apache2
+        - git
+      update_cache: yes
+    when: ansible_os_family == 'Debian'
+
+  - name: Install RedHat package
+    yum:
+      name:
+        - apache2
+        - git
+      update_cache: yes
+    when: ansible_os_family == 'RedHat'  
