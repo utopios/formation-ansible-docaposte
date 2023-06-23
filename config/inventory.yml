@@ -9,6 +9,22 @@ all:
       ansible_user: ubuntu
       ansible_ssh_private_key_file: ./ansible-formation.pem
   children:
+    # webservers:
+    #   hosts:
+    #     boston_webservers:
+    #     atlanta_webservers:
+    # dbservers:
+    #   hosts:
+    #     boston_dbservers:
+    #     atlanta_dbservers:
+    # boston:
+    #   hosts:
+    #     boston_webservers:
+    #     boston_dbservers:
+    # atlanta:
+    #   hosts:
+    #     atlanta_webservers:
+    #     atlanta_dbservers:
     dev:
       hosts:
         s1:
