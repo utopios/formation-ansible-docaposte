@@ -1,0 +1,29 @@
+sources:
+  - vote
+  - worker
+  - result
+images_to_pull: 
+  - redis
+  - postgres
+
+container_to_run:
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis
+    ports:
+      - 6379
+  vote:
+    image: vote-image
+    ports:
+      - "80:80"
+  result:
+    image: result-image
+    ports:
+      - "4000:4000"
+  worker:
+    image: worker-image
+    ports:
+      - "1000:1000"

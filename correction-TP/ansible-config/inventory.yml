@@ -1,0 +1,10 @@
+all:
+  hosts:
+    s1:      
+      ansible_host: 35.180.109.89
+      ansible_user: ubuntu
+  children:   
+    dev:
+      hosts:
+        s1:
+    

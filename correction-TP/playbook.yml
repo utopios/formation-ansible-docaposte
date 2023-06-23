@@ -1,0 +1,124 @@
+---
+
+- hosts: dev
+  become: true
+  vars_files:
+    - ./vars/src-vars.yml
+  tasks:
+    - name: Installation des packages de base pour docker famille debian
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        update_cache: yes
+      when: ansible_facts['os_family'] == 'Debian'
+      tags:
+        - install
+    - name: Installation des packages de base pour docker famille centos
+      yum:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        update_cache: yes
+      when: ansible_facts['os_family'] == 'RedHat'
+      tags:
+          - install
+
+    # Ajouter la clé gpg pour la sécurité des échanges avec le serveur des packages docker
+    - name: ajout de la cle gpg
+      apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+        state: present
+      when: ansible_facts['os_family'] == 'Debian'
+      tags:
+          - install
+
+    # ajouter le repos pour chercher les packages de docker
+    - name: Ajout de l'adresse du repos pour les packages docker de debian
+      apt_repository:
+        repo: deb https://download.docker.com/linux/debian stretch stable
+        state: present
+      tags:
+          - install
+    - name: Index new repo into the cache
+      apt:
+        name: "*"
+        state: latest
+        update_cache: yes
+        force_apt_get: yes
+      tags:
+          - install
+    # installation des composants docker
+    - name: install docker components
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - git
+        update_cache: yes
+      notify: start docker service
+      tags:
+          - install
+
+    # Copie des ressources de notre applications
+    - name: create apps folder
+      file:
+        path: /{{item}}
+        state: directory
+        mode: '0755'
+      loop: {{sources}}
+      tags:
+        - resources
+    - name: copy src to folder
+      copy:
+        src: ./src/{{item}}/
+        dest: /{{item}}/
+      loop: {{sources}}
+      tags:
+        - resources
+    # Création des images à partir des sources
+    - name: build images docker
+      # community.docker.docker_image:
+      #   build:
+      #     path: /{{item}}
+      #   source: build
+      #   name: "{{item}}-image"
+      command: docker build -t {{item}}-image /{{item}}/.
+      loop: {{source}}
+      tags:
+        - build images
+    
+    # pull des images à partir de dockerhub
+    - name: pull images
+      community.docker.docker_image:
+        source: pull
+        name: "{{item}}"
+      loop: {{image_to_pull}}
+      tags:
+        - pull images
+    
+    # demarrer les conteneurs
+    - name: run container 
+    community.docker.docker_container:
+      name: {{item.key}}
+      image: {{item.value.image}}
+      ports: {{item.value.ports}}
+    tags:
+      - run container
+    with_dict: {{container_to_run}}
+      
+  handlers:
+    - name: start docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+      tags:
+          - install
