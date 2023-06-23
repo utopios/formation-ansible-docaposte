@@ -1,0 +1,14 @@
+---
+
+- hosts: dev 
+  become: true 
+  vars:
+    folders:
+      - ./data/d1
+      - ./data/d2
+  tasks:
+  - name: copy multi folder
+    copy:
+      src: "{{ item }}"
+      dest: /data
+    with_items: "{{ folders }}"
