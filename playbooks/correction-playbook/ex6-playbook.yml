@@ -1,0 +1,19 @@
+---
+
+- hosts: dev 
+  become: true 
+  vars:
+    files:
+      f1:
+        variable1: f1_val1
+        variable2: f1_val2
+      f2:
+        variable1: f2_val1
+        variable2: f2_val2
+  tasks:
+  - name: copy file
+    template:
+      src: "./templates/conf.ini.j2"
+      dest: "/{{item.key}}.ini"
+      mode: 
+    with_dict: "{{ files }}"
